@@ -1,5 +1,6 @@
 #come convenzione si mette prima la documentazione, poi gli esempi
 
+#SI POTREBBE VEDERE COME CAMBIANDO IL PROMPT VA A CAMBIARE L'OUTPUT E SCRIVERLO NEL PAPER
 COBLOCK_DOCS = """
 CoBlock is a domain-specific language designed to write compliance and 
 security rules for blockchain systems. It is built on two pillars: 
@@ -47,7 +48,7 @@ Time interval examples:
   nef > 0 blocks
 """
 
-
+#DA CAPIRE QUALI ESEMPI DARE, TROVARNE DEI MIGLIORI O COMUNQUE PROVARNE ALTRI
 COBLOCK_EXAMPLES = [
     {
         "nl": "Markets should be resolved with the proper reward. Traders must claim their proceeds in each market",
@@ -60,6 +61,14 @@ COBLOCK_EXAMPLES = [
     {
         "nl": "All markets should be instantiated by the in-charge smart contract 0x7677 to guarantee correct flow",
         "rule": "createTX(contract is not 0x7677 function is CreateMarket) occ"
+    },
+    {
+        "nl": "The initial reporter must get properly rewarded after the market is finalized",
+        "rule": "redeemInitRepTX(function is RedeemAsInitialReporter)\nnef > 0 blocks\nfinalizeTX(function is FinalizeMarket)"
+    },
+    {
+        "nl": "A market must not be created with an end time earlier than the current transaction timestamp",
+        "rule": "createTX(function is CreateMarket\n    is passed endTime (< createTX.timestamp)) nocc"
     },
     {
         "nl": "Markets should have a reasonable duration. Check for a time frame too close between market creation and finalization — 10 days",

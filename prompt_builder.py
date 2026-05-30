@@ -19,10 +19,3 @@ class PromptBuilder:
 
 
         return prompt
-
-
-
-if __name__ == "__main__":
-    builder = PromptBuilder()
-    risultato = builder.build("The initial reporter must get properly rewarded")
-    print(risultato)

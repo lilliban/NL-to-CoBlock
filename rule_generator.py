@@ -1,5 +1,5 @@
 from prompt_builder import PromptBuilder
-
+#controller
 class RuleGenerator:
 
     def __init__(self, llm_client):
@@ -15,10 +15,3 @@ class RuleGenerator:
         return risposta
 
 
-if __name__ == "__main__":
-    from llm_client import MockClient
-
-    client = MockClient()
-    generator = RuleGenerator(client)
-    risultato = generator.generate("The initial reporter must get properly rewarded")
-    print(risultato)
