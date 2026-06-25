@@ -4,7 +4,7 @@ from src.connection.llm_factory import LLMFactory
 
 # Insert API KEY
 PROVIDER = "gemini"
-API_KEY = os.getenv("GEMINI_API_KEY", "........")
+API_KEY = os.getenv("GEMINI_API_KEY", ".......")
 MODEL = "gemini-2.5-flash"
 
 REQUIREMENTS = [
@@ -23,10 +23,9 @@ if __name__ == "__main__":
 
     print(f"Provider: {client}")
 
-    frase_singola = REQUIREMENTS[2]
-
-    print(f"\nInput:  {frase_singola}")
-    print(f"Output:")
-    risultato = generator.generate(frase_singola)
-    print(risultato)
-    print("-" * 60)
+    for fr in REQUIREMENTS:
+        print(f"\nInput:  {fr}")
+        print("Output:")
+        risultato = generator.generate(fr)
+        print(risultato)
+        print("-" * 60)

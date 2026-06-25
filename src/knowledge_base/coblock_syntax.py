@@ -129,7 +129,7 @@ COBLOCK_EXAMPLES = [
     },
 
     {
-        "nl": "A bond must be returned to the market creator only if the ownership transfer event is emitted with the correct recipient and amount within 24 hours after the end time",
-        "rule": "transferTX(function is transferOwnership\n    is emitted OwnershipTransferred(is contained recipient (= createTX.sender)\n    is contained amount (= createTX.BOND)))\nef < (createTX.endTime - createTX.timestamp) + 86400 seconds\ncreateTX(function is CreateMarket)"
+        "nl": "The settlement is valid only if the designated reporter submits the report with a Transfer event containing the correct recipient and bond amount, within 24 hours after the market end time",
+        "rule": "reportTX(sender is createTX.designatedReporter\n    function is SubmitReport\n    is emitted Transfer(is contained to (= createTX.sender)\n    is contained value (= createTX.BOND)))\nef < (createTX.endTime - createTX.timestamp) + 86400 seconds\ncreateTX(contract is 0x7677 function is CreateMarket)"
     }
 ]
