@@ -6,8 +6,13 @@ from knowledge_base.dapp_context import AUGUR_CONTEXT, PANCAKESWAP_CONTEXT, BEAN
 
 
 PROVIDER = "gemini"
+<<<<<<< HEAD
 API_KEY  = os.getenv("GEMINI_API_KEY", "......")
 MODEL    = "gemini-2.5-flash"
+=======
+API_KEY = os.getenv("GEMINI_API_KEY", ".......")
+MODEL = "gemini-2.5-flash"
+>>>>>>> feb88f9720160b9fe86a135d98b40110aa197eb6
 
 
 # 0 = Augur CR3
