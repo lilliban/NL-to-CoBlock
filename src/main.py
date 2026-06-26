@@ -6,13 +6,10 @@ from knowledge_base.dapp_context import AUGUR_CONTEXT, PANCAKESWAP_CONTEXT, BEAN
 
 
 PROVIDER = "gemini"
-<<<<<<< HEAD
-API_KEY  = os.getenv("GEMINI_API_KEY", "......")
+API_KEY  = os.getenv("GEMINI_API_KEY", "...") # insert here your GOOGLE API KEY
 MODEL    = "gemini-2.5-flash"
-=======
-API_KEY = os.getenv("GEMINI_API_KEY", ".......")
+API_KEY = os.getenv("GEMINI_API_KEY", "...") # insert here your GOOGLE API KEY
 MODEL = "gemini-2.5-flash"
->>>>>>> feb88f9720160b9fe86a135d98b40110aa197eb6
 
 
 # 0 = Augur CR3
@@ -23,7 +20,6 @@ MODEL = "gemini-2.5-flash"
 # 5 = Beanstalk
 
 TEST_CASES = [
-
     # 0 ── Augur CR3
     (
         "Augur CR3",
@@ -31,7 +27,6 @@ TEST_CASES = [
         "redeemInitRepTX(function is RedeemAsInitialReporter)\nnef > 0 blocks\nfinalizeTX(function is FinalizeMarket)",
         AUGUR_CONTEXT,
     ),
-
     # 1 ── Augur CR6
     (
         "Augur CR6",
@@ -40,7 +35,6 @@ TEST_CASES = [
         "createTX(function is CreateMarket\n    is passed endTime (< createTX.timestamp)) nocc",
         AUGUR_CONTEXT,
     ),
-
     # 2 ── Augur CR7
     (
         "Augur CR7",
@@ -57,7 +51,6 @@ TEST_CASES = [
         ),
         AUGUR_CONTEXT,
     ),
-
     # 3 ── PancakeSwap R6
     (
         "PancakeSwap R6",
@@ -72,7 +65,6 @@ TEST_CASES = [
         ),
         PANCAKESWAP_CONTEXT,
     ),
-
     # 4 ── PancakeSwap R7
     (
         "PancakeSwap R7",
@@ -84,7 +76,6 @@ TEST_CASES = [
         ),
         PANCAKESWAP_CONTEXT,
     ),
-
     # 5 ── Beanstalk
     (
         "Beanstalk",
@@ -100,41 +91,30 @@ TEST_CASES = [
     ),
 ]
 
-
 RUN_INDEX = 2  
 
 SLEEP_BETWEEN_CALLS = 3
 
-
-
 def run_single(generator, index):
     req_id, requirement, ground_truth, context = TEST_CASES[index]
-
     print(f"\n{'=' * 70}")
     print(f"[{index}] {req_id}")
     print(f"Requirement: {requirement}")
     print(f"\n GROUND TRUTH:\n{ground_truth}")
-
     # Mode 1 — prompt only
     result_m1 = generator.generate(requirement)
     print(f"\n MODE 1 (prompt only):\n{result_m1}")
-
     time.sleep(SLEEP_BETWEEN_CALLS)
-
     # Mode 2 — prompt + DApp context
     result_m2 = generator.generate(requirement, dapp_context=context)
     print(f"\n MODE 2 (prompt + context):\n{result_m2}")
-
     print("-" * 70)
 
-
 def run_evaluation():
-    client    = LLMFactory.create(PROVIDER, api_key=API_KEY, model=MODEL)
+    client = LLMFactory.create(PROVIDER, api_key=API_KEY, model=MODEL)
     generator = RuleGenerator(client)
-
     print(f"Provider: {client}")
     print(f"Running: {'all cases' if RUN_INDEX is None else f'case {RUN_INDEX} only'}\n")
-
     if RUN_INDEX is None:
         for i in range(len(TEST_CASES)):
             run_single(generator, i)
@@ -142,7 +122,6 @@ def run_evaluation():
                 time.sleep(SLEEP_BETWEEN_CALLS)
     else:
         run_single(generator, RUN_INDEX)
-
 
 if __name__ == "__main__":
     run_evaluation()

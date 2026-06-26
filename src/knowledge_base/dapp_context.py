@@ -1,5 +1,3 @@
-#vocabolari tecnici DApp
-
 """
 Compact technical context for each supported DApp.
 Used in Mode 2 (prompt + context) to give the LLM the vocabulary

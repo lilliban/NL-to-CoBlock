@@ -1,4 +1,3 @@
-#grammatica + esempi di CoBlock
 COBLOCK_DOCS = """
 CoBlock: Domain-Specific Language for Compliance Checking on Smart Contract Execution Data
 
@@ -100,59 +99,46 @@ TI can be specified as:
 """
 
 COBLOCK_EXAMPLES = [
-
     {
         "nl": "Markets should be resolved with the proper reward. Traders must claim their proceeds in each market",
         "rule": "claimTX(function is ClaimTradingProceeds) nocc"
     },
-
     {
         "nl": "Avoid excessive fees that could discourage market creation. Maximum 4,000,000 gas units",
         "rule": "createTX(function is CreateMarket\n    gas > 4000000) occ"
     },
-
     {
         "nl": "All markets should be instantiated by the in-charge smart contract 0x7677 to guarantee correct flow",
         "rule": "createTX(contract is not 0x7677\n    function is CreateMarket) occ"
     },
-
     {
         "nl": "The initial reporter must get properly rewarded",
         "rule": "redeemInitRepTX(function is RedeemAsInitialReporter)\nnef > 0 blocks\nfinalizeTX(function is FinalizeMarket)"
     },
-
     {
         "nl": "A market must not be created with an end time earlier than the current transaction timestamp. The end time is passed as input parameter.",
         "rule": "createTX(function is CreateMarket\n    is passed endTime (< createTX.timestamp)) nocc"
     },
-
     {
         "nl": "Markets should have a reasonable duration. Check for a time frame too close between market creation and finalization — 10 days",
         "rule": "finalizeTX(function is FinalizeMarket)\nef < 864000 seconds\ncreateTX(function is CreateMarket)"
     },
-
-     {
+    {
         "nl": "The creation bond is returned to the market creator only if the designated reporter submits the report within 24 hours after the market end time, with the correct recipient and amount.",
         "rule": "reportTX(sender is createTX.designatedRepoter\n    function is SubmitInitialReport\n    is emitted Transfer(is contained to (= createTX.sender)\n    is contained value (= createTX.BOND)))\nef < (createTX.endTime - createTX.timestamp) + 86400 seconds\ncreateTX(contract is 0x7677 function is CreateMarket)"
     }, 
-    
     #  PANCAKESWAP 
     {
         "nl": "A contract ownership transfer is only valid if it emits the OwnershipTransferred event with the correct previous owner, provides a non-null new owner input, and updates the owner state variable.",
         "rule": "transOwnTX(function is transferOwnership\n    is passed newOwner(!= nil)\n    is updated _owner(!= transOwnTX.inputs.newOwner)\n    is emitted OwnershipTransferred(is contained previousOwner(!= transOwnTX.sender))) nocc"
     },
- 
     {
         "nl": "Every token transfer across chains must make the required call to the LayerZero protocol contract at address 0xd675 to handle cross-chain communication.",
         "rule": "transTokTX(function is sendFrom\n    is called STATICCALL(contract is not 00000000000000000000000066a71dcef29a0ffbdbe3c6a460a3b5bc225cd675)) nocc"
     },
- 
     # BEANSTALK 
- 
     {
         "nl": "Governance improvement proposal votes should not be manipulated. A transaction must not combine a flash loan with a governance vote, as this indicates possible attack behavior.",
         "rule": "voteTX(\n    is called vote()\n    is emitted FlashLoan()) occ"
-    }  
-    
-    
+    }
 ]
